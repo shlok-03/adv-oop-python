@@ -1,5 +1,7 @@
 from .product import Product
 from .money import Money
+from decimal import Decimal
+
 
 class OrderLine:
     
@@ -12,11 +14,12 @@ class OrderLine:
     
     
     def line_total(self) -> Money:
-        return self._product.price * self._quantity
-    
+        tax = self._product.calculate_tax()
+        base = self._product.get_total_price() * self._quantity    
+        return base + tax
     
     def __str__(self):
-        return f"Product: {self._product}: {self._quantity}"
+        return f"\nProduct: {self._product}\nQuantity: {self._quantity}"
     
     def __repr__(self):
-         return f"Product: {self._product}: {self._quantity}"
+         return f"{self._product} {self._quantity}\n"

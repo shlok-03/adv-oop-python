@@ -1,4 +1,3 @@
-from .address import Address
 
 class Customer:
     def __init__(self, customer_id: str, name: str):

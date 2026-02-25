@@ -14,7 +14,7 @@ class Money:
         return self._currency
 
     
-    def __mul__(self, multiplier: int):
+    def __mul__(self, multiplier: Decimal):
         return Money(self._amount * multiplier, self._currency)
     
     def __add__(self, other):
@@ -27,4 +27,4 @@ class Money:
         return self._amount
     
     def __str__(self):
-        return f"{self.amount} {self.currency}"
+        return f"{self.amount:.2f} {self.currency}"
