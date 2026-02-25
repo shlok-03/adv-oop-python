@@ -4,6 +4,8 @@ from decimal import Decimal
 class Money:
     
     def __init__(self, amount: Decimal, currency: str):
+        if amount < 0:
+            raise ValueError("Money cannot be negative")
         self._amount = amount
         self._currency = currency
         

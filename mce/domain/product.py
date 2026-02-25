@@ -5,6 +5,8 @@ class Product:
     def __init__(self, product_id: str, name: str, price: Money):
         self._id = product_id
         self._name = name
+        if not isinstance(price, Money):
+            raise ValueError("Price needs to be of type Money")
         self._price = price
         
     @property
