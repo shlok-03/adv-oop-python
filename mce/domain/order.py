@@ -13,16 +13,16 @@ class Order:
         self._payment_processor = payment_processor
         
         
+    def validate(self):
+        pass
+        
     def  add_product(self, product: Product, quantity: int):
         self._lines.append(OrderLine(product, quantity))
         
     def total(self) -> Money:
         return sum(line.line_total() for line in self._lines)
     
-
-    def checkout(self):
-        order_total = self.total()
-        self._payment_processor.process(order_total)
+    
     
     @property
     def lines(self):
@@ -34,5 +34,6 @@ class Order:
             ret_val +=  str(line)
             ret_val += "\n"
         return ret_val
+
     
 
