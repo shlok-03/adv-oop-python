@@ -2,15 +2,14 @@ from .customer import Customer
 from .product import Product
 from .orderline import OrderLine
 from .money import Money
-from .payment import PaymentProcessor
+from typing import List
 
 class Order:
-    def __init__(self, order_id: str, customer: Customer, payment_processor: PaymentProcessor):
+    def __init__(self, order_id: str, customer: Customer):
         self._id = order_id
         self._customer = customer
         
-        self._lines = []
-        self._payment_processor = payment_processor
+        self._lines: List[OrderLine] = []
         
         
     def validate(self):
@@ -20,9 +19,16 @@ class Order:
         self._lines.append(OrderLine(product, quantity))
         
     def total(self) -> Money:
-        return sum(line.line_total() for line in self._lines)
+        sum = Money(0, "USD")
+        for line in self._lines:
+            sum += line.line_total()
+            
+        return sum
     
     
+    @property
+    def customer(self):
+        return self._customer
     
     @property
     def lines(self):

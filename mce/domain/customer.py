@@ -13,6 +13,11 @@ class Customer:
     @property
     def name(self):
         return self._name    
+    
+    @property
+    def is_loyal(self):
+        #todo: add actual logic
+        return True
 
 
 

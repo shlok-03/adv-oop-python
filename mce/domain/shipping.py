@@ -1,8 +1,11 @@
 from .money import Money
+from abc import ABC, abstractmethod
 
-class ShippingCalculator:
+class ShippingCalculator(ABC):
+    
+    @abstractmethod
     def calculate(self) -> Money:
-        raise NotImplemented() 
+        pass
     
     
 class StandardShipping(ShippingCalculator):
@@ -29,7 +32,7 @@ class FreeShipping(ShippingCalculator):
         return Money(0, 'USD')
     
 
-class HeavyShipping(ShippingCalculator):
+class WeightDependentShipping(ShippingCalculator):
     
     def __init__(self, weight: float):
         super().__init__()

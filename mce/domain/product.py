@@ -3,25 +3,19 @@ from .shipping import ShippingCalculator
 
 class Product:
     
-    def __init__(self, product_id: str, name: str, price: Money, shipping_calculator: ShippingCalculator):
+    def __init__(self, product_id: str, name: str, price: Money):
         self._id = product_id
         self._name = name
         if not isinstance(price, Money):
             raise ValueError("Price needs to be of type Money")
         self._price = price
-        self._shipping_calculator = shipping_calculator
-        
-    
-    def calculate_shipping(self) -> Money:
-        return self._shipping_calculator.calculate()    
+         
         
     
     def get_total_price(self):
-        return self._price  + self._shipping_calculator.calculate()
+        return self._price
     
-    def calculate_tax(self):
-        return Money(0, "USD")
-    
+
     
     def __str__(self):
         return f"{self._name}\nPrice:\n---Base: {self.get_total_price()}\n---Tax: {self.calculate_tax()}"
@@ -30,16 +24,14 @@ class Product:
 
 class PhysicalProduct(Product):
     
-    def __init__(self, product_id: str, name: str, price: Money, shipping_cost: Money):
+    def __init__(self, product_id: str, name: str, price: Money, shipping_calculator: ShippingCalculator):
         super().__init__(product_id, name, price)
-        self._shipping_cost = shipping_cost
+        self._shipping_calculator = shipping_calculator
         
     
     def get_total_price(self):
-        return self._price + self.calculate_shipping()
+        return self._price + self._shipping_calculator.calculate()
     
-    def calculate_tax(self):
-        return self._price * 0.15
     
 
 class DigitalProduct(Product):

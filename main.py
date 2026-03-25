@@ -3,7 +3,12 @@ from mce.domain.order import Order
 from mce.domain.product import Product, PhysicalProduct
 from mce.domain.money import Money
 from mce.domain.invoice import Invoice
-
+from mce.domain.shipping import ShippingCalculator, StandardShipping
+from mce.application.checkout_service import CheckoutService
+from mce.infrastructure.json_repository import JSONRepository
+from mce.infrastructure.email_notfier import EmailNotifier
+from mce.domain.discount import PercentageDiscount, FixedDiscount, LoyaltyDiscount, CompositeDiscount
+from mce.domain.payment import CreditCardProcessor
 
 # orders = []
 
@@ -37,14 +42,26 @@ Money
 
 customer = Customer("1", "John")
 order = Order("1", customer)
-prod = PhysicalProduct("1", "x", Money(10, "USD"), Money(2.5, "USD"))
-prod1 = PhysicalProduct("1", "y", Money(20, "USD"), Money(2.5, "USD"))
+prod = PhysicalProduct("1", "x", Money(10, "USD"), StandardShipping())
+prod1 = PhysicalProduct("1", "y", Money(20, "USD"), StandardShipping())
 
 order.add_product(prod, 1)
 order.add_product(prod1, 2)
-invoice = Invoice(order)
 
-print(invoice.generate_text())
+
+discount = CompositeDiscount([
+    PercentageDiscount(),
+    FixedDiscount(),
+    LoyaltyDiscount() 
+])
+checkout_service = CheckoutService(JSONRepository(), 
+                                   CreditCardProcessor(), EmailNotifier(), discount)
+
+
+checkout_service.checkout(order) 
+
+
+
 
 
 
