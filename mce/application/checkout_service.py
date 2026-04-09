@@ -1,4 +1,4 @@
-from ..infrastructure.repository import Repository
+from ..domain.repository import Repository
 from ..domain.payment import PaymentProcessor
 from ..domain.order import Order
 from ..infrastructure.notifier import Notifier
@@ -40,7 +40,7 @@ class CheckoutService:
             
         self._payment.process(total)
         
-        self._repo.save(order)
+        self._repo.add(order)
         
         self._notifier.send(order)         
                 

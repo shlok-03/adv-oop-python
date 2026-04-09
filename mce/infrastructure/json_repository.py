@@ -1,8 +1,18 @@
-from ..domain.order import Order 
-from .repository import Repository
+from ..domain.repository import PersistanceRepository
+from json import dump, load
+import os
 
-class JSONRepository(Repository):
-    def save(self, order: Order):
-        print("Save to file")
-        #  with open("order.json", "w") as f:
-        #     f.write(...)
+class JSONRepository(PersistanceRepository):
+    def save(self, obj):
+        print("Saving to file")
+        with open("orders.json", "w") as f:
+            dump(obj, f, indent=2)
+            
+    
+    def load(self):
+        print("Loading from file")
+        data = None
+        if os.path.isfile("orders.json"):
+            with open("orders.json", "r") as f:
+                data = load(f)
+        return data

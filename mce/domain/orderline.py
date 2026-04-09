@@ -12,6 +12,14 @@ class OrderLine:
         self._quantity = quantity
     
     
+    @property
+    def product(self):
+        return self._product
+    
+    @property
+    def quantity(self):
+        return self._quantity
+    
     
     def line_total(self) -> Money:
         base = self._product.get_total_price() * self._quantity    
@@ -22,3 +30,13 @@ class OrderLine:
     
     def __repr__(self):
          return f"{self._product} {self._quantity}\n"
+     
+    def to_dict(self):
+        return {
+             "product": self._product.to_dict(),
+             "quantity": str(self._quantity)
+         }
+        
+    @staticmethod
+    def from_dict(data):
+        return OrderLine(Product.from_dict(data["product"]), int(data["quantity"]))

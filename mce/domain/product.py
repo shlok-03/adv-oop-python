@@ -11,6 +11,11 @@ class Product:
         self._price = price
          
         
+    @property
+    def id(self):
+        return self._id
+    
+
     
     def get_total_price(self):
         return self._price
@@ -20,8 +25,18 @@ class Product:
     def __str__(self):
         return f"{self._name}\nPrice:\n---Base: {self.get_total_price()}\n---Tax: {self.calculate_tax()}"
     
-    
 
+    def to_dict(self):
+        return {
+            "id": self._id,
+            "name": self._name,
+            "price": self._price.to_dict()
+        }    
+
+    @staticmethod
+    def from_dict(data):
+        return Product(data["id"], data["name"], Money.from_dict(data["price"]))
+    
 class PhysicalProduct(Product):
     
     def __init__(self, product_id: str, name: str, price: Money, shipping_calculator: ShippingCalculator):

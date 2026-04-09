@@ -19,6 +19,13 @@ class Customer:
         #todo: add actual logic
         return True
 
+    def to_dict(self):
+        return {
+            "id": self._id,
+            "name": self._name
+        }
 
-
+    @staticmethod
+    def from_dict(data):
+        return Customer(data["id"], data["name"])
 
