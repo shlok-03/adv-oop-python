@@ -5,12 +5,23 @@ from .money import Money
 from typing import List
 
 class Order:
+    
+    FREE_SHIPPING_THRESHOLD = 1000
+    SHIPPING_COST = 10
+    
     def __init__(self, order_id: str, customer: Customer):
         self._id = order_id
         self._customer = customer
         
         self._lines: List[OrderLine] = []
         
+    def free_shipping(self):
+        return self.total().amount >= self.FREE_SHIPPING_THRESHOLD
+    
+    def get_shipping_cost(self):
+        if self.free_shipping():
+            return 0
+        return self.SHIPPING_COST
         
     def validate(self):
         pass
