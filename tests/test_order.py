@@ -1,7 +1,7 @@
 import sys
+from pathlib import Path
 
-
-sys.path.append("C:\\Users\\andre\\dev\\adv-oop-python")
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 print(sys.path)
 
@@ -11,6 +11,7 @@ from mce.domain.customer import Customer
 from mce.domain.money import Money
 
 import pytest
+
 
 
 def test_add_item_to_order():
